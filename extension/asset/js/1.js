@@ -9739,6 +9739,7 @@
                 break;
             case b.a.Failed:
                 o = Object(s.a)("not_found");
+                getcustomicon();//TARAVASYA
                 break;
             case b.a.Inputting:
                 o = Object(s.a)("official")
