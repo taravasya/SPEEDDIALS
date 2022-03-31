@@ -3,7 +3,9 @@
 <head>
     <title>Icon fetcher</title>
     <meta charset="utf-8">
-    <link href=ic_style.css rel=stylesheet>
+    <link href=css/ic_style.css rel=stylesheet>
+    <script type=text/javascript src=js/1.js></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
 	<main class="flex-container">
@@ -11,7 +13,8 @@
 $url = $_GET['site'];
 $url = 'https://' . parse_url($url, PHP_URL_HOST);
 $imgs_array = array();
-include('simple_html_dom.php');
+ini_set('user_agent','Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+include('libs/simple_html_dom.php');
 $html = new simple_html_dom();
 $html->load_file($url);
 
@@ -43,8 +46,10 @@ foreach ($tags_text as $tag_text) {
 }
 
 if (count($imgs_array) > 0) {
+	$a = 0;
 	foreach ($imgs_array as $img) {
-		echo ('<div class="ic_container"><img class="urlicon" src="' . $img . '"></div>');
+		$a++;
+		echo ('<div id="ic_contaner'.$a.'" class="ic_container" onmouseout="hidemsg('.$a.')" onmouseover="showmsg('.$a.')" onclick="copymyurl('.$a.')"><img class="urlicon" src="' . $img . '"><div id="ic'.$a.'" class="ic_hiden">Копировать ссылку</div></div>');
 	}
 } else {
 	echo ('<div class="ic_container"><img class="urlicon" src="imgs/empty.jpg"></div>');

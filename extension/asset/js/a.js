@@ -1,9 +1,24 @@
-function getcustomicon() {
-    if ( document.getElementsByClassName('_1abmwnCj-IqFvZZT3_DZy0')[2] && document.getElementsByClassName('_1abmwnCj-IqFvZZT3_DZy0')[2].style.backgroundImage == '') {
-        console.log(document.getElementsByClassName('_14fkLEpRMg0Ecl_52-p6dU _2TYwBQxs3apdXRmlR3lTM1')[0].value);
-        if (document.getElementsByClassName('_14fkLEpRMg0Ecl_52-p6dU')[0].value != '') {
-            url = 'https://photomir.dn.ua/icon/geticons.php?site=' + document.getElementsByClassName('_14fkLEpRMg0Ecl_52-p6dU')[0].value
-            window.open(url, '_blank').focus();
+function getcustomicon () {
+    if (document.getElementsByClassName("_1DzzHnyr0PWan_yx7BH2PK")[0] != undefined ) {
+        if (document.getElementById("getcustomicon") === null) {
+            var el = document.createElement("div");
+            el.setAttribute("class", "_22Bk9qKmv1hfgT0avgvLPU");
+            el.setAttribute("id", "getcustomicon");
+            el.innerHTML = "Найти изображение на этом сайте";
+            el.onclick = function() {openiconsite()};
+            var div = document.getElementsByClassName("_1DzzHnyr0PWan_yx7BH2PK")[0];
+            insertAfter(div, el);
         }
     }
+ }
+
+function openiconsite() {
+    if (document.getElementsByClassName('_14fkLEpRMg0Ecl_52-p6dU')[0].value != '') {
+        url = 'https://photomir.dn.ua/icon/geticons.php?site=' + document.getElementsByClassName('_14fkLEpRMg0Ecl_52-p6dU')[0].value
+        window.open(url, '_blank').focus();
+    }    
+}
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }

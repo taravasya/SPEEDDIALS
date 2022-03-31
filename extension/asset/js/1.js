@@ -9730,7 +9730,7 @@
         } = e;
         let o, i = null;
         const u = {};
-        switch (n) {
+        switch (n) { //TARAVASYA ПОИСК ИКОНКИ В ИНТЕРНЕТЕ
             case b.a.Submitting:
                 o = Object(s.a)("searching");
                 break;
@@ -9739,7 +9739,6 @@
                 break;
             case b.a.Failed:
                 o = Object(s.a)("not_found");
-                getcustomicon();//TARAVASYA
                 break;
             case b.a.Inputting:
                 o = Object(s.a)("official")
@@ -13475,6 +13474,7 @@
                 continue
             }
             if (n === e) break;
+            getcustomicon(e, n); //TARAVASYA ВСПЛЫВАЮЩИЕ ДИАЛОГИ
             for (; null === n.sibling;) {
                 if (null === n.return || n.return === e) return;
                 4 === (n = n.return).tag && (a = !1)
@@ -19220,10 +19220,10 @@
                 iconsStore: t
             } = this.rootStore, {
                 iconDict: n
-            } = t.model.data, a = n[e];
+            } = t.model.data, a = n[e]; //TARAVASYA ОТКРЫТЬ ОКНО РЕДАКТИРОВАНИЯ
             void 0 !== a && (this.opened = !0, this.form = new Be.a({
                 icon: a,
-                getUser: () => this.rootStore.userStore.model,
+                getUser: () => this.rootStore.userStore.model, 
                 onError: e => {
                     this.rootStore.messagesStore.notificateMessage({
                         status: W.Failed,

@@ -1,3 +1,19 @@
+._3FObhxQfvuy8-0zHPQY-Zu {
+    font-size: 13px !important;
+    height: 65px !important;
+    white-space: normal !important;
+}
+
+._10h_VZnukdWgYVZH8jmlxH {
+    display:  none !important;
+}
+
+div#getcustomicon {
+    width: auto;
+    padding-top: 10px;
+    cursor: pointer
+}
+
 .pkdFF8HNpG0BkaUDzNwgY {
     position: relative;
     height: 100%;
@@ -1012,11 +1028,9 @@ html {
 }
 
 ._3FObhxQfvuy8-0zHPQY-Zu {
-	font-size: 13px !important;
-	height: 50px !important;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: normal;
+    white-space: nowrap;
     line-height: 1.3;
     font-weight: 500
 }
