@@ -84,7 +84,7 @@ if (count($imgs_array) > 0) {
 }
 
 function debug_log ($data, $index) {
-	$file = 'debug_log.txt';
+	$file = 'debug.log';
 	$current = file_get_contents($file);
 	$current .= '['.$index.'] ';
 	$current .= $data."\n";
