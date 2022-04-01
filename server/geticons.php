@@ -11,16 +11,41 @@
 	<main class="flex-container">
 <?php
 $url = $_GET['site'];
-$url = 'https://' . parse_url($url, PHP_URL_HOST);
+$url = ( strpos( $_GET['site'], '//' ) === false ) ? '//'.$_GET['site'] : $_GET['site'];
+$url = 'http://' . parse_url($url, PHP_URL_HOST);
 $imgs_array = array();
-ini_set('user_agent','Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+//ini_set('user_agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36');
+$headers = array('Accept: */*','user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36', 'HTTP_ACCEPT: */*;q=0.8,application/signed-exchange;v=b3;q=0.9', 'HTTP_ACCEPT_LANGUAGE: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7', 'content-type: text/html; charset=utf-8');
+
+$file_handler = fopen('curl.log', 'a');
+$ch      = curl_init();
+$options = array(
+		//CURLOPT_VERBOSE        => true,
+		//CURLOPT_STDERR         => $file_handler,
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_HTTPHEADER     => $headers,
+        CURLOPT_REFERER        => $url,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_URL            => $url,
+        CURLOPT_COOKIEFILE     => '',
+        CURLOPT_COOKIELIST     => 'all'
+);
+
+curl_setopt_array( $ch, $options );
+$htmlContent = curl_exec($ch);
+//var_dump(curl_getinfo($ch, CURLINFO_COOKIELIST));
+curl_close($ch );
+//echo htmlspecialchars($htmlContent);
+
 include('libs/simple_html_dom.php');
 $html = new simple_html_dom();
-$html->load_file($url);
-
+$html->load($htmlContent);
+//var_dump($html);
 
 $tags_text = array();
-foreach($html->find('link, meta') as $element) {
+foreach($html->find('link, meta, img') as $element) {
 	if ($element->rel == 'apple-touch-icon' || $element->rel == 'icon' || $element->rel == 'shortcut icon') {
 		array_push($tags_text, $element->href);
 	}
@@ -33,6 +58,9 @@ foreach($html->find('link, meta') as $element) {
 	}
 	if ($element->property == 'og:image') {
 		array_push($tags_text, $element->content);
+	}
+	if (strpos($element->id, 'logo') || strpos($element->class, 'logo') || strpos($element->src, 'logo')) {
+		array_push($tags_text, $element->src);
 	}	
 }
 
@@ -58,7 +86,7 @@ if (count($imgs_array) > 0) {
 function debug_log ($data, $index) {
 	$file = 'debug_log.txt';
 	$current = file_get_contents($file);
-	$current = '['.$index.'] ';
+	$current .= '['.$index.'] ';
 	$current .= $data."\n";
 	file_put_contents($file, $current);
 }
@@ -67,20 +95,21 @@ function clear_img_url ($tag_text, $url) {
 	$return_img_url = false;
 	$function_answear = array();
 	$return_status = 10;
-	if (preg_match('/(\.png|\.jpg|\.svg|\.ico)/', $tag_text, $match)) {
+	if (preg_match('/(\.png|\.jpg|\.svg|\.ico|\.gif)/', $tag_text, $match)) {
 		if (preg_match('/((http|https):\/\/)|(\/\/)/', $tag_text, $matches)) {;
 			$tag_text = str_replace($matches[0], '', $tag_text);
-			$tag_text = 'https://' . $tag_text;
+			$tag_text = 'http://' . $tag_text;
 			$return_img_url = $tag_text;
-			debug_log($return_img_url, '1');
 		} else {
 			$tag_text_temp = ( strpos( $tag_text, "//" ) === false ) ? "//$tag_text" : $tag_text;
 			if (parse_url($tag_text_temp, PHP_URL_HOST)) {
-				$return_img_url = 'https://' . $tag_text;
-				debug_log($return_img_url, '2');
+				if (preg_match('/^[^\/]+(\.png|\.jpg|\.svg|\.ico|\.gif)$/', $tag_text)) {
+					$return_img_url = $url . '/' . $tag_text;
+				} else {
+					$return_img_url = 'http://' . $tag_text;
+				}
 			} else {
 				$return_img_url = $url . $tag_text;
-				debug_log($return_img_url, '3');
 			}
 		}
 	$return_status = 0;	

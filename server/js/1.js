@@ -34,8 +34,5 @@ function showmsg(id) {
 
 function hidemsg(id) {
     $("#ic"+id).removeClass("ic_hidenshow").addClass("ic_hiden");
-    $("#ic"+id).css("background-color", "#41747485");
-    $("#ic"+id).delay(300).queue(function(n) { 
-        $(this).text("Копировать ссылку"); n();
-    });   
+    $("#ic"+id).css("background-color", "#41747485");  
 }

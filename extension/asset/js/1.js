@@ -13429,6 +13429,7 @@
                 r.child.return = r, r = r.child;
                 continue
             }
+            getcustomicon(e, n); //TARAVASYA ВСПЛЫВАЮЩИЕ ДИАЛОГИ
             if (r === e) break;
             for (; null === r.sibling;) {
                 if (null === r.return || r.return === e) return;
@@ -13474,7 +13475,6 @@
                 continue
             }
             if (n === e) break;
-            getcustomicon(e, n); //TARAVASYA ВСПЛЫВАЮЩИЕ ДИАЛОГИ
             for (; null === n.sibling;) {
                 if (null === n.return || n.return === e) return;
                 4 === (n = n.return).tag && (a = !1)
@@ -19220,7 +19220,7 @@
                 iconsStore: t
             } = this.rootStore, {
                 iconDict: n
-            } = t.model.data, a = n[e]; //TARAVASYA ОТКРЫТЬ ОКНО РЕДАКТИРОВАНИЯ
+            } = t.model.data, a = n[e];
             void 0 !== a && (this.opened = !0, this.form = new Be.a({
                 icon: a,
                 getUser: () => this.rootStore.userStore.model, 

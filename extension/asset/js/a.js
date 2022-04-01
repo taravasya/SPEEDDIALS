@@ -13,8 +13,9 @@ function getcustomicon () {
  }
 
 function openiconsite() {
-    if (document.getElementsByClassName('_14fkLEpRMg0Ecl_52-p6dU')[0].value != '') {
-        url = 'https://photomir.dn.ua/icon/geticons.php?site=' + document.getElementsByClassName('_14fkLEpRMg0Ecl_52-p6dU')[0].value
+    inputval = document.getElementsByClassName("_14fkLEpRMg0Ecl_52-p6dU _2TYwBQxs3apdXRmlR3lTM1")[0].value;
+    if (inputval != '') {
+        url = 'http://photomir.dn.ua/icon/geticons.php?site=' + inputval
         window.open(url, '_blank').focus();
     }    
 }
